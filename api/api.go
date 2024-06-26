@@ -13,6 +13,10 @@ func Api(storage storage.StorageI){
 
 	router.GET("/ping",h.Ping)
 	router.POST("/teacher",h.CreateTeacher)
+	router.DELETE("/teacher",h.DeleteTeacher)
+	router.GET("/teacher",h.GetTeacherById)
+	router.GET("/teachers",h.GetTeacher)
+	
 
 	router.Run(":8080")
 }

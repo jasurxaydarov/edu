@@ -3,7 +3,7 @@ package postgres
 import (
 	"context"
 	"log"
-
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jasurxaydarov/edu/modles"
 	"github.com/jasurxaydarov/edu/storage/repoi"
@@ -19,17 +19,17 @@ func NewTeacherRepo(db *pgx.Conn) repoi.TeacherRepoI {
 
 func (t *TeacherRepo) CreateTeacher(ctx context.Context, req *modles.Teacher) error {
 
+	req.TeacherID=uuid.New()
+
 	query := `
 
 		INSERT INTO teachers(
 			teacher_id,
 			name,
 			surname,
-			email,
-			created_at,
-			updated_at
+			email
 		)VALUES(
-			$1,$2,$3,$4,$5,$6
+			$1,$2,$3,$4
 		)
 	
 	`
@@ -40,8 +40,7 @@ func (t *TeacherRepo) CreateTeacher(ctx context.Context, req *modles.Teacher) er
 		req.Name,
 		req.Surname,
 		req.Email,
-		req.CreatedAt,
-		req.UpdatedAt,
+
 	)
 
 	if err != nil {
@@ -91,7 +90,13 @@ func (t *TeacherRepo) GetTeacherById(ctx context.Context, id string) (*modles.Te
 	return &teacher, nil
 
 }
-func (t *TeacherRepo) GetTeacher(ctx context.Context, req modles.GetListReq) (*[]modles.Teacher, error) {
+func (t *TeacherRepo) GetTeachers(ctx context.Context, req modles.GetListReq) (*[]modles.Teacher, error) {
+	var teacher modles.Teacher
+	var teachers []modles.Teacher
+
+	Limit:=req.Limit
+	offset:=(req.Page-1)* req.Limit
+
     query := `
         SELECT 
             teacher_id,
@@ -104,10 +109,9 @@ func (t *TeacherRepo) GetTeacher(ctx context.Context, req modles.GetListReq) (*[
             teachers
         LIMIT $1 OFFSET $2
     `
-	var teacher modles.Teacher
-	var teachers []modles.Teacher
 
-	row,err := t.db.Query(ctx,query,req.Limit,req.Page)
+
+	row,err := t.db.Query(ctx,query,Limit,offset)
 
 	if err != nil {
 
@@ -129,10 +133,7 @@ func (t *TeacherRepo) GetTeacher(ctx context.Context, req modles.GetListReq) (*[
    		)
 
 		teachers=append(teachers,teacher)
-
 	}
-
-
 
 	return &teachers,nil
 

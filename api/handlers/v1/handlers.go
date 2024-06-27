@@ -3,9 +3,8 @@ package v1
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
-	"strings"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -35,44 +34,51 @@ func (h *Handler) CreateTeacher(ctx *gin.Context) {
 	ctx.BindJSON(&reBody)
 
 	DataParser(reBody, teacher)
-	h.Storage.TeacherRepo().CreateTeacher(ctx, teacher)
+	err:= h.Storage.TeacherRepo().CreateTeacher(ctx, teacher)
+
+	if err!= nil{
+
+		ctx.JSON(500,err)
+		return
+	}
+
+	ctx.JSON(201,"succesfully created")
 
 }
 
 func (h *Handler) GetTeacherById(ctx *gin.Context) {
 
-	var url = strings.Split(ctx.Request.URL.Path, "/")
-
-	id := url[len(url)]
-
-	fmt.Println("iddddddddddd", url)
+	id:=ctx.Param("id")
 
 	teacher, err := h.Storage.TeacherRepo().GetTeacherById(context.Background(), id)
 
 	if err != nil {
-
+		ctx.JSON(500,err)
 		return
 	}
 
-	ctx.JSON(2001, teacher)
+	ctx.JSON(200, teacher)
 
 }
 
-func (h *Handler) GetTeacher(ctx *gin.Context) {
+func (h *Handler) GetTeachers(ctx *gin.Context) {
 
 	var req modles.GetListReq
 
-	req.Limit = 5
-	req.Page = 1
-	teacher, err := h.Storage.TeacherRepo().GetTeacher(context.Background(), req)
-	fmt.Println("teacherrrr", teacher)
+	Limit := ctx.Query("limit")
+	Page := ctx.Query("page")
+
+	req.Limit,_=strconv.Atoi(Limit)
+	req.Page,_=strconv.Atoi(Page)
+	
+	teacher, err := h.Storage.TeacherRepo().GetTeachers(context.Background(), req)
 
 	if err != nil {
-
+		ctx.JSON(500,err)
 		return
 	}
 
-	ctx.JSON(201, teacher)
+	ctx.JSON(200, teacher)
 
 }
 
@@ -89,15 +95,34 @@ func DataParser[t any, t2 any](src t, dst t2) {
 
 func (h *Handler) DeleteTeacher(ctx *gin.Context) {
 
-	urlS := strings.Split(ctx.Request.URL.Scheme, "/")
-
-	id := urlS[len(urlS)-1]
+	id:=ctx.Param("id")
 
 	err := h.Storage.TeacherRepo().DeleteTeacher(context.Background(), id)
 
 	if err != nil {
-
+		ctx.JSON(500,err)
 		return
 	}
+
+	ctx.JSON(201,"succesfully deleted")
+}
+
+
+func(h *Handler)UpdateTeacher(ctx *gin.Context){
+
+	var req modles.TeacherReq
+
+	id:=ctx.Param("id")
+
+	ctx.BindJSON(&req)
+
+	err:=h.Storage.TeacherRepo().UpdateTeacher(context.Background(),id,req)
+
+	if err!= nil{
+		ctx.JSON(500,err)
+		return
+	}
+
+	ctx.JSON(201,"succesfully updated")
 
 }

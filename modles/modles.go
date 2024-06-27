@@ -3,7 +3,7 @@ package modles
 import (
 	"time"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 type TeacherReq struct {

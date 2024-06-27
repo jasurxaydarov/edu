@@ -13,3 +13,23 @@ type TeacherRepoI interface {
 	UpdateTeacher(ctx context.Context ,id string , req modles.TeacherReq )error
 	DeleteTeacher(ctx context.Context,id string)error
 }
+
+
+
+type CourseRepoI interface{
+	CreateCourse(ctx context.Context, req *modles.Course) error
+	GetCourseById(ctx context.Context, id string) (*modles.Course, error)
+	GetTCourses(ctx context.Context, req modles.GetListReq) (*[]modles.Course, error)
+	UpdateCourse(ctx context.Context ,id string , req modles.CourseReq )error
+	DeleteCourse(ctx context.Context,id string)error
+
+}
+
+type GroupRepoI interface{
+	CreateCourse(ctx context.Context, req *modles.Course) error
+	GetCourseById(ctx context.Context, id string) (*modles.Course, error)
+	GetTCourses(ctx context.Context, req modles.GetListReq) (*[]modles.Course, error)
+	UpdateCourse(ctx context.Context ,id string , req modles.CourseReq )error
+	DeleteCourse(ctx context.Context,id string)error
+
+}

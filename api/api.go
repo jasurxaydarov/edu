@@ -11,13 +11,22 @@ func Api(storage storage.StorageI){
 
 	h:=v1.NewHandler(storage)
 
-	router.GET("/ping",h.Ping)
 
-	router.POST("/teacher",h.CreateTeacher)
-	router.GET("/teacher/:id",h.GetTeacherById)
-	router.GET("/teachers",h.GetTeachers)
-	router.DELETE("/teacher/:id",h.DeleteTeacher)
-	router.PUT("/teacher/:id",h.UpdateTeacher)
+
+	router.GET("/ping",)
+
+	router.POST("/teacher",h.TeacherRepo().GetTeacherById)
+	router.GET("/teacher/:id",h.TeacherRepo().GetTeacherById)
+	router.GET("/teachers",h.TeacherRepo().GetTeachers)
+	router.DELETE("/teacher/:id",h.TeacherRepo().DeleteTeacher)
+	router.PUT("/teacher/:id",h.TeacherRepo().UpdateTeacher)
+
+	router.POST("/course",h.CourseRepo().CreateCourse)
+	router.GET("/course/:id",h.CourseRepo().GetCourseById)
+	router.GET("/courses",h.CourseRepo().GetCourses)
+	router.DELETE("/course/:id",h.CourseRepo().DeleteCourse)
+	router.PUT("/course/:id",h.CourseRepo().UpdateCourse)
 
 	router.Run(":8080")
+
 }

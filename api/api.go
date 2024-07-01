@@ -27,6 +27,12 @@ func Api(storage storage.StorageI){
 	router.DELETE("/course/:id",h.CourseRepo().DeleteCourse)
 	router.PUT("/course/:id",h.CourseRepo().UpdateCourse)
 
+	router.POST("/group",h.GroupRepo().CreateGroup)
+	router.GET("/group/:id",h.GroupRepo().GetGrupById)
+	router.GET("/groups",h.GroupRepo().GetGroups)
+	router.DELETE("/group/:id",h.GroupRepo().DeleteGroup)
+	router.PUT("/group/:id",h.GroupRepo().UpdateGroup)
+
 	router.Run(":8080")
 
 }

@@ -11,6 +11,7 @@ type HandlerI interface{
 
 	TeacherRepo() repoi.TeacherRepoI
 	CourseRepo() repoi.CourseRepoI
+	GroupRepo() repoi.GroupRepoI
 	
 }
 
@@ -18,6 +19,7 @@ type Handler struct {
 	Storage 	storage.StorageI
 	teacherRepo repoi.TeacherRepoI
 	courseRepo	repoi.CourseRepoI
+	groupRepo  repoi.GroupRepoI
 }
 
 func NewHandler(storage storage.StorageI) HandlerI {
@@ -37,4 +39,9 @@ func(h *Handler)TeacherRepo()repoi.TeacherRepoI{
 func(h *Handler)CourseRepo()repoi.CourseRepoI{
 
 	return h.courseRepo
+}
+
+func (h *Handler)GroupRepo()repoi.GroupRepoI{
+
+	return h.groupRepo
 }

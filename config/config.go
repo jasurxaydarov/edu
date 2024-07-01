@@ -54,7 +54,7 @@ func NewConfig() Config {
 
 func Load() Config {
 
- if err := godotenv.Load(); err != nil {
+ if err := godotenv.Load("./"); err != nil {
   fmt.Println("No .env file found")
  }
 

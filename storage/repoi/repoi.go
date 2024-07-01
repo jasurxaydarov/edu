@@ -26,10 +26,10 @@ type CourseRepoI interface{
 }
 
 type GroupRepoI interface{
-	CreateCourse(ctx context.Context, req *modles.Course) error
-	GetCourseById(ctx context.Context, id string) (*modles.Course, error)
-	GetTCourses(ctx context.Context, req modles.GetListReq) (*[]modles.Course, error)
-	UpdateCourse(ctx context.Context ,id string , req modles.CourseReq )error
-	DeleteCourse(ctx context.Context,id string)error
+	CreateGroup(ctx context.Context, req *modles.Group) error
+	GetGrupById(ctx context.Context, id string) (*modles.Group, error)
+	GetGroups(ctx context.Context, req modles.GetListReq) (*[]modles.Group, error)
+	UpdateGroup(ctx context.Context ,id string , req modles.GroupReq )error
+	DeleteGroup(ctx context.Context,id string)error
 
 }

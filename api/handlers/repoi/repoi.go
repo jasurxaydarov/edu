@@ -11,10 +11,21 @@ type TeacherRepoI interface{
 
 }
 type CourseRepoI interface{
+	
 	CreateCourse(ctx *gin.Context)
 	GetCourseById(ctx *gin.Context)
 	GetCourses(ctx *gin.Context) 
 	UpdateCourse(ctx *gin.Context)
 	DeleteCourse(ctx *gin.Context)
+
+}
+
+type GroupRepoI interface{
+	
+	CreateGroup(ctx *gin.Context)
+	GetGrupById(ctx *gin.Context)
+	GetGroups(ctx *gin.Context) 
+	UpdateGroup(ctx *gin.Context)
+	DeleteGroup(ctx *gin.Context)
 
 }

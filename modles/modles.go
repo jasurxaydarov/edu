@@ -38,6 +38,7 @@ type GroupReq struct {
 	GroupID   uuid.UUID `json:"group_id"`
 	GroupName string    `json:"group_name"`
 	CourseID  uuid.UUID `json:"course_id"`
+	
 }
 
 type Group struct {
